@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitflex - Your Personal Fitness Companion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.4)), 
+                        url('https://static.vecteezy.com/system/resources/previews/023/016/633/original/fitness-center-logo-sport-and-fitness-logo-design-gym-logo-icon-design-stock-or-emblem-with-woman-and-man-silhouettes-vector.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            letter-spacing: 2px;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+            max-width: 600px;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .workout-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 80px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            border-radius: 2px;
+        }
+
+        .muscle-groups {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .muscle-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .muscle-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+        }
+
+        .muscle-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .muscle-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .muscle-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+        .muscle-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+
+        .exercise-list {
+            list-style: none;
+        }
+
+        .exercise-item {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #ff6b6b;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .exercise-item:hover {
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            transform: translateX(10px);
+        }
+
+        .exercise-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .exercise-details {
+            color: #6c757d;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .difficulty-badge {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .beginner { background: #28a745; }
+        .intermediate { background: #ffc107; color: #333; }
+        .advanced { background: #dc3545; }
+
+        .stats-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0;
+            text-align: center;
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ff6b6b;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p { font-size: 1.2rem; }
+            .section-title { font-size: 2rem; }
+            .muscle-groups { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>FITFLEX</h1>
+            <p>Transform your body, elevate your mind. Your personal fitness journey starts here.</p>
+            <button class="cta-button" onclick="scrollToWorkouts()">Start Training</button>
+        </div>
+        <div class="scroll-indicator">↓</div>
+    </div>
+
+    <div class="workout-section" id="workouts">
+        <div class="container">
+            <h2 class="section-title">Complete Muscle Training</h2>
+            
+            <div class="muscle-groups">
+                <div class="muscle-card">
+                    <h3 class="muscle-title">
+                        <div class="muscle-icon">
+                            <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fillustrations%2Fchest-workout&psig=AOvVaw3bn_7c4sTB3k1nWos0pL7O&ust=1758274630606000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCLiI_oqB4o8DFQAAAAAdAAAAABAE"alt="Chest">
+                        </div>
+                        Chest
+                    </h3>
+                    <ul class="exercise-list">
+                        <li class="exercise-item">
+                            <div class="difficulty-badge beginner">Beginner</div>
+                            <div class="exercise-name">Push-ups</div>
+                            <div class="exercise-details">3 sets × 8-12 reps • Targets chest, shoulders, triceps</div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="difficulty-badge intermediate">Intermediate</div>
+                            <div class="exercise-name">Diamond Push-ups</div>
+                            <div class="exercise-details">3 sets × 6-10 reps • Enhanced tricep and inner chest focus</div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="difficulty-badge advanced">Advanced</div>
+                            <div class="exercise-name">Archer Push-ups</div>
+                            <div class="exercise-details">3 sets × 4-8 reps each side • Unilateral strength builder</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="muscle-card">
+                    <h3 class="muscle-title">
+                        <div class="muscle-icon">
+                            <img src="https://images.unsplash.com/photo-1434608519344-49d77a699e1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Back">
+                        </div>
+                        Back
+                    </h3>
+                    <ul class="exercise-list">
+                        <li class="exercise-item">
+                            <div class="difficulty-badge beginner">Beginner</div>
+                            <div class="exercise-name">Superman</div>
+                            <div class="exercise-details">3 sets × 10-15 reps • Strengthens lower back and glutes</div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="difficulty-badge intermediate">Intermediate</div>
+                            <div class="exercise-name">Reverse Snow Angels</div>
+                            <div class="exercise-details">3 sets × 12-15 reps • Targets rear delts and rhomboids</div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="difficulty-badge advanced">Advanced</div>
+                            <div class="exercise-name">Single-Arm Row (Towel)</div>
+                            <div class="exercise-details">3 sets × 8-12 reps each • Builds lat strength and definition</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="muscle-card">
+                    <h3 class="muscle-title">
+                        <div class="muscle-icon">
+                            <img src="https://images.unsplash.com/photo-1434608519344-49d77a699e1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80&sat=-100" alt="Legs">
+                        </div>
+                        Legs
+                    </h3>
+                    <ul class="exercise-list">
+                        <li class="exercise-item">
+                            <div class="difficulty-badge beginner">Beginner</div>
+                            <div class="exercise-name">Bodyweight Squats</div>
+                            <div class="exercise-details">3 sets × 15-20 reps • Foundation movement for leg strength</div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="difficulty-badge intermediate">Intermediate</div>
+                            <div class="exercise-name">Bulgarian Split Squats</div>
+                            <div class="exercise-details">3 sets × 10-12 each leg • Unilateral quad and glute developer</div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="difficulty-badge advanced">Advanced</div>
+                            <div class="exercise-name">Pistol Squats</div>
+                            <div class="exercise-details">3 sets × 3-8 each leg • Ultimate single-leg strength test</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="muscle-card">
+                    <h3 class="muscle-title">
+                        <div class="muscle-icon">
+                            <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Core">
+                        </div>
+                        Core
+                    </h3>
+                    <ul class="exercise-list">
+                        <li class="exercise-item">
+                            <div class="difficulty-badge beginner">Beginner</div>
+                            <div class="exercise-name">Plank</div>
+                            <div class="exercise-details">3 sets × 30-60 seconds • Core stability foundation</div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="difficulty-badge intermediate">Intermediate</div>
+                            <div class="exercise-name">Mountain Climbers</div>
+                            <div class="exercise-details">3 sets × 20-30 reps • Dynamic core and cardio combo</div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="difficulty-badge advanced">Advanced</div>
+                            <div class="exercise-name">L-Sit Hold</div>
+                            <div class="exercise-details">3 sets × 10-30 seconds • Advanced core strength builder</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="muscle-card">
+                    <h3 class="muscle-title">
+                        <div class="muscle-icon">
+                            <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Shoulders">
+                        </div>
+                        Shoulders
+                    </h3>
+                    <ul class="exercise-list">
+                        <li class="exercise-item">
+                            <div class="difficulty-badge beginner">Beginner</div>
+                            <div class="exercise-name">Wall Handstand</div>
+                            <div class="exercise-details">3 sets × 15-45 seconds • Builds shoulder endurance</div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="difficulty-badge intermediate">Intermediate</div>
+                            <div class="exercise-name">Pike Push-ups</div>
+                            <div class="exercise-details">3 sets × 6-12 reps • Vertical pushing strength</div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="difficulty-badge advanced">Advanced</div>
+                            <div class="exercise-name">Handstand Push-ups</div>
+                            <div class="exercise-details">3 sets × 3-8 reps • Elite shoulder and tricep power</div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="muscle-card">
+                    <h3 class="muscle-title">
+                        <div class="muscle-icon">
+                            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Arms">
+                        </div>
+                        Arms
+                    </h3>
+                    <ul class="exercise-list">
+                        <li class="exercise-item">
+                            <div class="difficulty-badge beginner">Beginner</div>
+                            <div class="exercise-name">Tricep Dips</div>
+                            <div class="exercise-details">3 sets × 8-15 reps • Chair or couch assisted</div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="difficulty-badge intermediate">Intermediate</div>
+                            <div class="exercise-name">Close-Grip Push-ups</div>
+                            <div class="exercise-details">3 sets × 6-12 reps • Tricep-focused variation</div>
+                        </li>
+                        <li class="exercise-item">
+                            <div class="difficulty-badge advanced">Advanced</div>
+                            <div class="exercise-name">One-Arm Push-ups</div>
+                            <div class="exercise-details">3 sets × 1-5 each arm • Ultimate upper body challenge</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-section">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Your Fitness Journey</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Exercises</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Muscle Groups</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Difficulty Levels</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Available</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">FITFLEX</div>
+                <p>© 2024 Fitflex. Transform your life, one workout at a time.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function scrollToWorkouts() {
+            document.getElementById('workouts').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Add smooth scrolling for all internal links
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to exercise items
+            const exerciseItems = document.querySelectorAll('.exercise-item');
+            exerciseItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(10px) scale(1.02)';
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0) scale(1)';
+                });
+            });
+
+            // Add floating animation to muscle cards
+            const cards = document.querySelectorAll('.muscle-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+            });
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero-section');
+            const speed = scrolled * 0.5;
+            parallax.style.transform = `translateY(${speed}px)`;
+        });
+    </script>
+</body>
+</html>
